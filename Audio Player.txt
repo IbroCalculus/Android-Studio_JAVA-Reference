@@ -1,0 +1,51 @@
+
+NB: THIS AUDIO DOES NOT RUN IN THE BACKGROUND, TO LEARN ABOUT THAT, LEARN ABOUT SERVICES.
+
+Create directory of type raw and place sound files inside.
+
+    MediaPlayer mediaPlayer;
+
+===========================	TO PLAY SOUND	======================================
+    
+    private void playSound() {
+        if(mediaPlayer == null)
+        {
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            //mediaPlayer.setLooping(true);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    stopSound();
+                }
+            });
+        }
+        mediaPlayer.start();
+    }
+
+===========================	TO PAUSE SOUND	======================================
+
+    private void pauseSound() {
+        if(mediaPlayer != null){
+            mediaPlayer.pause();
+        }
+    }
+
+===========================	TO STOP SOUND	======================================
+
+    private void stopSound() {
+        if(mediaPlayer != null){
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+//To release memory after closing application. To make music play in background, more research on services.
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopSound();
+    }
+
+NB: Other methods like mediaPlayer.Pause(), .stop() etc IN PLACE OF 
+
+

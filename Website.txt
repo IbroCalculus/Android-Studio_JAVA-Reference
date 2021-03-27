@@ -1,0 +1,5 @@
+THE INTENT TO VIEW A WEBSITE
+
+        String webAddress = "http://www.google.com";
+        Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(webAddress));
+        startActivity(intent1);

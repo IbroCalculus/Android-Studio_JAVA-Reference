@@ -1,0 +1,23 @@
+*CHANGE TITLE
+Go to manifest file, in the activity to change, add:
+android:label="New activity name"
+
+E.g
+
+<activity
+            android:name=".firstActivity"
+            android:label="TestApp 1st Activity"
+            android:parentActivityName=".MainActivity"
+ />
+
+
+*HIDE TITLE BAR
+go to res -> values -> styles
+INITIALLY
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+FINALLY
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+*CHANGE TITLE
+ getSupportActionBar().setTitle("New Title"). i.e btn_Change.setOn...->{getSupportActionBar().setTitle("New Title")}

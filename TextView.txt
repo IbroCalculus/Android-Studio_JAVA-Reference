@@ -1,0 +1,2 @@
+Use 
+ android:lines="1" to make the length of the text on only 1 line

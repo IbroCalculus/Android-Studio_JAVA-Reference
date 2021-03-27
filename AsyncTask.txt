@@ -1,0 +1,6 @@
+Asyntask is used to prevent lagging when the device is running a logic that takes long time to execute,
+hence, affecting the UI thread, which makes the application seem to lag.
+E.g generating random numbers in a billion for loops. Solution using Asyntask may be to show progress while the process is going on in the background thread.
+
+IOW; AsyncTask enables proper and easy use of the UI thread. This class allows you to perform background operations and publish results on the UI thread without having to manipulate threads and/or handlers. (Source:"Developers website")
+

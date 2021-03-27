@@ -1,0 +1,41 @@
+Timer timer;
+
+
+setContentView(R.layout.activity_first);
+
+* FIRST WAY
+timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), secondActivity.class);
+                startActivity(intent);
+
+            }
+        }, DELAY); //How long the timing lasts
+
+NB: declare const int variable DELAY = 5000; i.e 5 seconds
+NB: For now, seem to work well only with open another intent after delay. Even toast did not work.
+
+* SECOND WAY
+
+    private void runProgressBar2() {
+
+        progressBar.setProgress(0);
+        counter = 0;
+        final Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                progressBar.setProgress(counter);
+                counter++;
+                if(counter == 100)
+                {
+                    t.cancel();
+                }
+            }
+        };
+        t.schedule(tt,0,100); //Every 100ms, do something
+    }
+
+

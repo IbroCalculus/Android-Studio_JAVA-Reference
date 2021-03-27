@@ -1,0 +1,7 @@
+
+Inside res -> values -> strings:
+
+    <string name="hello">This is a hello text</string>
+
+In java:
+                et_test.setText(getString(R.string.hello));

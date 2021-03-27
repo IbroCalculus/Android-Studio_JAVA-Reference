@@ -1,0 +1,24 @@
+    private void showTimePicker() {
+        final Calendar calendar = Calendar.getInstance();
+        int HOUR = calendar.get(Calendar.HOUR);
+        final int MINUTE  = calendar.get(Calendar.MINUTE);
+
+        boolean PhoneTimeFormat = DateFormat.is24HourFormat(this); // Gets phone default time format. 12 or 24 hour.
+
+// android.R.style.theme_Holo_Light_Dialog_MinWidth is optional for stylings
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String TimeS = hourOfDay + " " + minute;
+                //Toast.makeText(MainActivity.this, "TIME: " + TimeS, Toast.LENGTH_SHORT).show();
+
+                //Formatting the time
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.set(Calendar.HOUR, hourOfDay);
+                calendar1.set(Calendar.MINUTE, minute);
+                CharSequence TimeCharSequence = DateFormat.format("hh:mm a", calendar1);
+                Toast.makeText(MainActivity.this, "TIME: "+ TimeCharSequence, Toast.LENGTH_LONG).show();
+            }
+        }, HOUR, MINUTE,false); // pass in either "true", "false" or PhoneTimeFormat
+        timePickerDialog.show();
+    }

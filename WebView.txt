@@ -1,0 +1,38 @@
+Give internet permission
+<uses-permission android:name="android.permission.INTERNET" />
+
+NB: Use android:usesCleartextTraffic="true" inside manifest file to avoid error: net::ERR_CLEARTEXT_NOT_PERMITTED
+i.e
+<application
+        android:usesCleartextTraffic="true"
+        android:allowBackup="true"
+
+#1. Load online URL
+
+ 	webView = findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://www.google.com");
+        webView.setWebViewClient(new WebViewClient());	<- enables hyperlinks to open in same app, not external browser
+ 
+
+#2. Load local html tags directly in app
+
+	webView = findViewById(R.id.webView);
+        String uncodedHTML = "<html><body>Hello webview</body></html>";
+        String encodedHTML = Base64.encodeToString(uncodedHTML.getBytes(), Base64.NO_PADDING);
+        webView.loadData(encodedHTML,"text/html", "base64");
+
+
+
+#Go back in web browser
+@Override
+    public void onBackPressed() {
+        if(webView.canGoBack()){
+            webView.goBack();
+        }
+    }
+
+Others:
+web.getOriginalUrl(); -> Get the website URL

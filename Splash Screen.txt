@@ -1,0 +1,19 @@
+Always use Intent finish() in the splash screen
+
+1. USE EasySplashScreen library
+
+2. 
+
+setContentView(R.layout.activity_main);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), firstActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, SPLASH_DURATION);
+
+//create string variable SPLASH_DURATION
+// private static final long SPLASH_DURATION = 4000; // 4 seconds

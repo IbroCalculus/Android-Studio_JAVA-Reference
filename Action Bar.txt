@@ -1,0 +1,69 @@
+TOOLBAR HAS A DEFUALT HEIGHT OF 56dp
+
+*HIDE APP BAR
+ super.onCreate(savedInstanceState);
+
+ 	ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+*CHANGE TITLE
+ getSupportActionBar().setTitle("New Title"). i.e btn_Change.setOn...->{getSupportActionBar().setTitle("New Title")}
+
+
+*CREATE MENUS
+Create menu resource directory
+create menu resource file i.e appbar_menu
+place menu items, and give all IDs
+
+NB: menu will NOT be visible yet.
+NB: Checkable, Switch Item, Search Item; don't work on hide
+NB: Group is good for side navigation bar
+NB: Value of title displays when long clicked.
+NB: ShowAsAction value; collapseActionView works with only Search Item
+NB: To create sub menu Items, create menu inside the menu item, then add the menu items inside the menu 
+
+In the java file
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId())
+    {
+        case R.id.list:
+            Toast.makeText(this, "You clicked on list", Toast.LENGTH_SHORT).show();
+            break;
+        case R.id.app_bar_search:
+            Toast.makeText(this, "You clicked on app bar seach", Toast.LENGTH_SHORT).show();
+            break;
+    }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+* FOR CUSTOMIZABLE APP BAR, USE THE ACTION BAR
+super.onCreate(savedInstanceState);
+
+ 	ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Customized");
+        actionBar.setSubtitle("subtitle");
+        actionBar.setIcon(R.drawable.home);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+this is applied individually on every activity
+NB: Create home arrow using:
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+    In manifest file do:
+	<activity android:name=".Main2Activity">
+		<meta_data android:name="android.support.PARENT_ACTIVITY"
+			android:value=".MainActivity"
+	</activity>
+

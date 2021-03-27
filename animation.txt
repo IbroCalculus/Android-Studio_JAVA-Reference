@@ -1,0 +1,218 @@
+THERE ARE DIFFERENT TYPES OF ANIMATIONS, THE ONES HERE ARE:
+
+1. DRAWABLE ANINAMATION (NB: Pic i.e .png etc can be used also, not only vectors)
+2. MODERN WIDGET ANIMATION (Animate the widgets like textView, imageView etc)
+3. SLIDE ANIMATION IN ACTIVITIES (Animate the activities)
+
+======================================= ################# ==========================
+
+#1 DRAWABLE ANIMATION (NB: Pic i.e .png etc can be used also, not only vectors)
+Create new drawable resource file. i.e bt_animation_list (bt_animation_list.xml) with root element animation-list
+insert images into drawable folder with appropriate names i.e bt_1, bt_2, bt_3 ...
+
+Within bt_animation_list.xml, do as shown;
+
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/bt_1" android:duration="500"/>
+    <item android:drawable="@drawable/bt_2" android:duration="500"/>
+    <item android:drawable="@drawable/bt_3" android:duration="500"/>
+
+</animation-list>
+
+Insert imageView
+in code view set:
+tools:srcCompat="@tools:sample/avatars" to tools:srcCompat="@drawable/bt_animation_list" or simply delete
+
+In java class
+
+
+public class MainActivity extends AppCompatActivity {
+
+    AnimationDrawable bt_animation;
+    ImageView imageView;
+
+ 	imageView = findViewById(R.id.imageView);
+        imageView.setBackgroundResource(R.drawable.bt_animation_list);
+        bt_animation = (AnimationDrawable)imageView.getBackground();
+
+	
+	button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bt_animation.start();
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bt_animation.stop();
+            }
+        });
+
+
+
+#2 MODERN WIDGET ANIMATION
+NB: If Using Adobe Xd Image, export in svg will be better
+NB: Animation can be applied to any widget, E.g: button, textView, ImageView etc
+
+place image(s) in drawable, i.e a vector asset for example, or svg etc
+place image in imageView i.e imageView, imageView2, imageView3.
+also, widgets textView and button.
+
+Create android resource directory(anim), with resource type anim
+inside anim, create animation resource files i.e: fade_animation, translate_to_animation.
+
+The animation types are; alpha(fade), translate, scale, rotate.
+
+1. fade_animation
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha
+        android:fromAlpha="0"
+        android:toAlpha="1"
+        android:duration="3000"
+        />
+
+</set>
+
+2. translate_animation
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:fromXDelta="-100%"
+        android:toXDelta="0%"
+        android:duration="5000"
+        />
+
+</set>
+
+3. scale_animation
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <scale android:fromXScale="0%"
+        android:toXScale="100%"
+        android:fromYScale="0%"
+        android:toYScale="100%"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:duration="5000"
+        />
+
+4.rotate_animation
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+
+    <rotate android:fromDegrees="0"
+        android:toDegrees="360"
+        android:duration="500"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatCount="infinite"
+        android:interpolator="@android:anim/linear_interpolator" 
+
+        />
+</set>
+
+5. set_animation
+
+NB: pivotX and pivotY shows the center point of rotation, 50%, 50%, implies center of X-axis and center of Y-axis.
+NB:Note the "shareInterpolation=false" in the <set>. <- For smooth rotation
+	To "reverse", remove "...interpolator", insert android:repeatMode="reverse"
+NB: These animations can be applied to the activity in and out as well, as shown below.
+NB: To bounce widget, use  android:interpolator="@android:anim/bounce_interpolator" within <set... of any of the animation
+
+IN JAVA:
+
+    Animation fade_animation, translate_animation, scale_animation, rotate_animation;
+
+
+        fade_animation = AnimationUtils.loadAnimation(this, R.anim.fade_animation);
+        translate_animation = AnimationUtils.loadAnimation(this, R.anim.translate_to_left);
+        scale_animation = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+        rotate_animation = AnimationUtils.loadAnimation(this, R.anim.rotate_animation);
+
+        btn_Display2.setAnimation(fade_animation);
+        btn_Display.setAnimation(translate_animation);
+        imageView.setAnimation(scale_animation);
+        imageView.setAnimation(fade_animation);
+        imageView.setAnimation(rotate_animation);
+
+
+
+
+
+#3. SLIDE ANIMATION IN ACTIVITIES
+Create anim resource directory of resource type and Directory name anim
+create the source files i.e slide_in_left, slide_in_right, slide_out_left, slide_out_right.
+
+*slide_in_left
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="-100%" android:toXDelta="0"
+        android:duration="@android:integer/config_mediumAnimTime"
+        />
+
+</set>
+
+*slide_in_right
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="100%" android:toXDelta="0"
+        android:duration="@android:integer/config_mediumAnimTime"
+        />
+
+</set>
+
+*slide_out_left
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="0" android:toXDelta="-100%"
+        android:duration="@android:integer/config_mediumAnimTime"
+        />
+
+</set>
+
+*slide_out_right
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="0" android:toXDelta="100%"
+        android:duration="@android:integer/config_mediumAnimTime"
+        />
+
+</set>
+
+TO APPLY ANIMATION TO INDIVIDUAL ACTIVITY
+paste below startActivity(intent) values for enterAnim and exitAnim... i.e;
+ Intent intent = new Intent(getApplicationContext(), firstActivity.class);
+                //Intent intent = new Intent(MainActivity.this, firstActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+TO APPLY ON EVERY ACTVITY:
+under styles, create a new style i.e customActivityAnimation
+NB: the last item on "Apptheme" style. i.e; android.windowsAnimationStyle...
+
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/customActivityAnimation</item>
+    </style>
+    
+    <style name="customActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+</resources>
+
+
+

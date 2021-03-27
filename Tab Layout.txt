@@ -1,0 +1,62 @@
+Insert tablayout and give ID to the tablayout and the tabItems i.e tabLayout, tabItem1, ..2, ..3
+
+
+    TabLayout tabLayout;
+    TabItem tabItem1, tabItem2, tabItem3;
+
+
+        tabLayout = findViewById(R.id.tabLayout);
+        tabItem1 = findViewById(R.id.tabItem1);
+        tabItem2 = findViewById(R.id.tabItem2);
+        tabItem3 = findViewById(R.id.tabItem3);
+
+tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+                Toast.makeText(secondActivity.this, "You clicked on TAB " + pos, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+======================================= USING FRAGMENTS ==============================
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+                Toast.makeText(secondActivity.this, "You clicked on TAB " + pos, Toast.LENGTH_SHORT).show();
+                switch (pos){
+                    case 0:
+                        getSupportActionBar().setTitle("First Fragment");
+                        firstFrag firstFrag = new firstFrag();
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frameLayout, firstFrag, "");
+                        fragmentTransaction.commit();
+                        break;
+                    case 1:
+                        getSupportActionBar().setTitle("Second Fragment");
+                        secondFrag secondFrag = new secondFrag();
+                        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction2.replace(R.id.frameLayout, secondFrag, "");
+                        fragmentTransaction2.commit();
+                        break;
+                    case 2:
+                        getSupportActionBar().setTitle("Second Fragment");
+                        thirdFrag thirdFrag = new thirdFrag();
+                        FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction3.replace(R.id.frameLayout, thirdFrag, "");
+                        fragmentTransaction3.commit();
+                        break;
+                }
+            }

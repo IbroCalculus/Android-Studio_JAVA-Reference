@@ -1,0 +1,43 @@
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+
+    Button btnVibrate, btnVib2;
+    Vibrator vibrator;
+
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        btnVibrate = findViewById(R.id.btnVibrate);
+        btnVib2 = findViewById(R.id.btnVib2);
+
+
+=============== VIBRATE =======================
+
+    private void VibrateNow() {
+        if (vibrator.hasVibrator()) {
+            Toast.makeText(this, "Vibrator present in device", Toast.LENGTH_SHORT).show();
+            vibrateIndefinite();
+        }else{
+            Toast.makeText(this, "NO vibrator present in device", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+------------- VIBRATE INDEFINITELY or DOES NOT REPEAT VIBRATION -------------------
+    private void vibrateIndefinite() {
+        // Start time delay
+        // Vibrate for 500 milliseconds
+        // Sleep for 1000 milliseconds
+        long[] pattern = {0, 500, 1000};
+	//long[] pattern = {0, 100, 1000, 200, 2000};
+        // 0 meaning is repeat indefinitely, -1 will imply does not repeat
+        vibrator.vibrate(pattern, 0);
+    }
+
+
+============= STOP VIBRATION ============
+	vibrator.cancel();
+
+============ VIBRATE FOR ONE TIME ===============
+	vibrator.vibrate(5000);		//Deprecated in API 26 and above, use instead the code shown below
+        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+

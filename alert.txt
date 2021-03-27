@@ -1,0 +1,23 @@
+private void showalert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("This is the title")
+                .setMessage("This is the message")
+                .setPositiveButton("Positive", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        show();
+                    }
+                })
+                .setNegativeButton("Negative", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
+
+    private void show() {
+        Toast.makeText(this, "You clicked the positive option", Toast.LENGTH_SHORT).show();
+    }

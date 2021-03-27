@@ -1,0 +1,33 @@
+TOOLBAR HAS A DEFUALT HEIGHT OF 56dp
+
+
+======================= CREATE CUSTOM TOOLBAR (Custom layout) =================================
+Create custom layout i.e: custome_toolbar, WITH root element androidx...Toolbar
+Make Toolbar layout_height wrap_content, layout_width match_parent
+insert constraint layout, Make layout_height and layout_width match parent
+place UI as desired on the constraint layout via component tree
+Give IDs. ie: imageView, tv_Title, tv_Description
+
+--------- IN JAVA;
+
+        setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+        getSupportActionBar().setCustomView(R.layout.custom_layout);
+
+
+
+
+        btnChangeToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                tv_Title = getSupportActionBar().getCustomView().findViewById(R.id.tv_Title);
+                tv_Descr = getSupportActionBar().getCustomView().findViewById(R.id.tv_Descr);
+                imageView = getSupportActionBar().getCustomView().findViewById(R.id.imageView);
+
+                tv_Title.setText("Custom Title");
+                tv_Descr.setText("Custom Description");
+                imageView.setImageResource(R.drawable.alarm);
+            }
+        });

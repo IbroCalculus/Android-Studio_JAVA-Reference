@@ -1,0 +1,110 @@
+#1 VIEWPAGER WITH TAB VIEW AND FRAGMENTS
+
+*Insert view Pager and give ID. i.e: viewPager (NB: Change ViewPager2 to ViewPager via XML)
+    ViewPager viewPager;
+    viewPager = findViewById(R.id.viewPager);
+
+*Create fragments i.e firstFrag, secondFrag, thirdFrag.
+*Create view pager adapter and extends FragmentPagerAdapter i.e
+
+public class PagerAdapter extends FragmentPagerAdapter {
+}
+
+*implement methods and implement constructor. i.e:
+
+public class PagerAdapter extends FragmentPagerAdapter {
+    public PagerAdapter(@NonNull FragmentManager fm) {
+        super(fm);
+    }
+
+    public PagerAdapter(@NonNull FragmentManager fm, int behavior) {
+        super(fm, behavior);
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public int getCount() {
+        return 0;
+    }
+}
+
+*Create number of tabs counter variable. i.e; tabsNum
+*Introduce int tabs as argument into Public PagerAdapter(@Nonnull FragmentManager fm,...
+*Still within, set this.tabsNum = tabs;
+*In public int getCount(){...} set return tabsNum;
+*In public Fragment getItem(...) delete return null; and switch loop tab position from 0 >>>
+
+public class PagerAdapter extends FragmentPagerAdapter {
+    private  int tabsNum;
+
+    public PagerAdapter(@NonNull FragmentManager fm) {
+        super(fm);
+    }
+
+    public PagerAdapter(@NonNull FragmentManager fm, int behavior, int tabs) {
+        super(fm, behavior);
+        this.tabsNum = tabs;
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        switch (position)
+        {
+            case 0:
+                return new firstFrag();
+            case 1:
+                return new secondFrag();
+            case 2:
+                return new thirdFrag();
+            default: return null;
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return tabsNum;
+    }
+}
+
+IN JAVA CLASS
+
+    TabLayout tabLayout;
+    TabItem tab1, tab2, tab3;
+    ViewPager viewPager;
+    PagerAdapter adapter;
+
+	tabLayout = findViewById(R.id.tabLayout);
+        tab1 = findViewById(R.id.tab1);
+        tab2 = findViewById(R.id.tab2);
+        tab3 = findViewById(R.id.tab3);
+        viewPager = findViewById(R.id.viewPager);
+
+        adapter = new PagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+          });
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+}

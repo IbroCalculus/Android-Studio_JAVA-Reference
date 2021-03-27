@@ -1,0 +1,163 @@
+
+CREATE A MODEL CLASS i.e: SQLiteDbModel, Pass values to similar to what to insert into database.
+Also, introduce the int id variable to be the id number of db.
+
+
+public class SQLiteDbModel {
+
+    int id;
+    String username;
+    int age;
+    boolean isActive;
+}
+
+
+*CREATE CONSTRUCTOR WITH ALL FOUR VARIABLES AS PARAMETER.
+*CREATE ANOTHER CONSTRUCTOR WITH NO VALUE AS PARAMETER.
+*GENERATE GETTERS AND SETTERS
+
+
+public class SQLiteDbModel {
+
+    int id;
+    String username;
+    int age;
+    boolean isActive;
+
+    public SQLiteDbModel(int id, String username, int age, boolean isActive) {
+        this.id = id;
+        this.username = username;
+        this.age = age;
+        this.isActive = isActive;
+    }
+
+    public SQLiteDbModel() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+}
+
+
+*GO BELOW THE CONSTRUCTOR (WITH NO PARAMETER), Override the toString(); i.e:
+
+    @Override
+    public String toString() {
+        return "SQLiteDbModel{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                ", isActive=" + isActive +
+                '}';
+
+
+=========JAVA CLASS==============
+
+    Button btn_Add, btn_ViewAll;
+    EditText et_Username, et_Age;
+    ListView listView;
+    Switch switch1;
+
+        btn_Add = findViewById(R.id.btn_Add);
+        btn_ViewAll = findViewById(R.id.btn_ViewAll);
+        et_Username = findViewById(R.id.et_Username);
+        et_Age = findViewById(R.id.et_Age);
+        switch1 = findViewById(R.id.switch1);
+
+
+        btn_Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDbModel sqLiteDbModel = new SQLiteDbModel(-1, et_Username.getText().toString(), Integer.parseInt(et_Age.getText().toString()), switch1.isChecked());
+                Toast.makeText(MainActivity.this, sqLiteDbModel.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+CREATE JAVA CLASS DataBaseHelper and extend SQLiteOpenHelper
+
+public class DataBaseHelper extends SQLiteOpenHelper {
+}
+
+IMPLEMENT METHODS, onCreate and onUpgrade
+
+
+    //This is called the first time a database is accessed. There should be code in here to create a new database
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+    }
+
+    //This is called if the database version number changes. It prevents previous users apps from breaking when you change the database design
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+
+IMPLEMENT CONSTRUCTOR (FIRST ONE AMONG THE 3)
+DELETE EVERY OTHER PARAMETERS IN THE CONSTRUCTOR EXCEPT Context context
+WITHIN super(), DELETE THE LAST 3 VALUES EXCEPT context.
+REPLACE INSTEAD WITH; String database name, null, int i.e
+
+    public DataBaseHelper(@Nullable Context context) {
+        super(context, "myDataBase.db", null, 1);
+    }
+
+
+WITHIN THE ONCREATE, DO AS SHOWN;
+@Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String createTableStatement = "CREATE TABLE myTable(ID  INTEGER PRIMARY KEY AUTOINCREMENT, USER_NAME TEXT, USER_AGE INT, ACTIVE_CUSTOMER BOOL)";
+
+        sqLiteDatabase.execSQL(createTableStatement);
+
+    }
+
+
+======IN MAIN JAVA CLASS===============
+
+WITHIN EVENT HANDLER. i.e btn_Add, do as shown:
+
+        btn_Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDbModel sqLiteDbModel = new SQLiteDbModel(-1, et_Username.getText().toString(), Integer.parseInt(et_Age.getText().toString()), switch1.isChecked());
+                Toast.makeText(MainActivity.this, sqLiteDbModel.toString(), Toast.LENGTH_SHORT).show();
+                
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+            }
+        });
+
+
+IN DataBaseHelper CLASS, DO AS SHOWN;
+CREATE METHOD TO ADD VALUE TO THE DATABASE:i.e addOne;
+
+

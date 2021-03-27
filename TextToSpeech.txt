@@ -1,0 +1,21 @@
+1. Create TextToSpeech object. i.e
+     TextToSpeech textToSpeech;
+
+2. textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if (i == TextToSpeech.SUCCESS){
+                    int lange = textToSpeech.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+
+3.  button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String s = editText.getText().toString();
+                int speech = textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+
+            }
+        });

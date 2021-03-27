@@ -1,0 +1,14 @@
+
+NB: THIS ALARM DOES NOT RUN IN THE BACKGROUND, TO LEARN ABOUT THAT, LEARN ABOUT SERVICES.
+
+    private MediaPlayer mediaPlayer;
+
+    private void playAlarm() {
+        mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+        //mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
+        //mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+*

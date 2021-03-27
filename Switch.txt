@@ -1,0 +1,27 @@
+
+	Switch switch1;
+
+        switch1 = findViewById(R.id.switch1);
+        switch1.setChecked(true);
+        
+        switch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "You clicked on the switch", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        switch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switch1.isChecked())
+                {
+                    Toast.makeText(MainActivity.this, "Checked", Toast.LENGTH_SHORT).show();
+                }
+                else if(!switch1.isChecked())
+                {
+                    Toast.makeText(MainActivity.this, "Not Checked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });

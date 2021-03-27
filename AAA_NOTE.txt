@@ -1,0 +1,5 @@
+In every android application, we have 4 main components:
+-Activities
+-Content providers
+-Broadcast receivers
+-Services

@@ -1,0 +1,5 @@
+SET TEXT COLOR
+
+TextView.setTextColor(getResources().getColor(R.color.colorPrimaryDark))
+TextView.setTextColor(Color.parseColor("#00ff00"))
+TextView.setTextColor(Color.WHITE)
