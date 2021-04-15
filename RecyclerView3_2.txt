@@ -1,0 +1,254 @@
+
+CHECK: Android Development for Beginners: 9:30:00
+
+
+USING ARRAYLIST / MODAL CLASS
+
+
+Place RecyclerView on main with ID, i.e recyclerView.
+
+
+IN MAIN JAVA CLASS
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+
+        setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);  //Vertical recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);  //Horizontal recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+
+
+CREATE LAYOUT RESOURCE FILE FOR RECYCLERVIEW i.e recycler_layout. Contains: imageView1, tv_firstName, tv_surName.
+
+
+=========== CREATE MODEL CLASS FOR THE ADAPTER ie: RecyclerModel ===========
+---------- Generate Constructor and generate getters and setters ----------
+
+
+public class RecyclerModel {
+    private String firstNameM;
+    private String surNameM;
+    private String imageM;
+}
+
+
+
+========== CREATE RECYCLERVIEW ADAPTER ===========
+NB: Change ..<RecyclerView.ViewHolder> to <recyclerAdapter.ViewHolder>
+
+1*public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
+ }
+
+2**public class recyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+	public static class ViewHolder extends RecyclerView.ViewHolder{        
+    	}
+  }
+
+USE ALT+Enter:
+FIRST: Create constructor
+SECONDLY: Implement methods
+NB: Preferably, move public static class ViewHolder extends RecyclerView.ViewHolder{ to the top as shown
+
+
+public class recyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+}
+
+
+
+==== WITHIN public static class ViewHolder extends RecyclerView.ViewHolder{; DO AS SHOWN: ====
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        
+	TextView tv_firstName;
+        TextView tv_surName;
+        ImageView imageView1;
+        
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            
+            tv_firstName = itemView.findViewById(R.id.tv_firstName);
+            tv_surName = itemView.findViewById(R.id.tv_surName);
+            imageView1 = itemView.findViewById(R.id.imageView1);
+        }
+    }
+
+
+=============== IN ADAPTER CLASS ======================
+ ---- Below; public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {: Create Arraylist of the Modal class; as well as Context variable
+
+public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
+
+    private ArrayList<RecyclerModal> recyclerModal = new ArrayList<>();
+    private Context context;
+
+
+============== GENERATE 3 CONSTRUCTORS, 1 OF ArrayList, 1 OF Context, THE 3rd EMPTY ============
+ Above: public static class ViewHolder extends RecyclerView.ViewHolder{; Generate constructor as shown below;
+
+    public RecyclerAdapter(ArrayList<RecyclerModal> recyclerModal) {
+        this.recyclerModal = recyclerModal;
+    }
+
+    public recyclerAdapter(Context context) {
+        this.context = context;
+    }
+
+    public recyclerAdapter() {
+    }
+
+
+==== WITHING public int getItemCount() {; ================
+
+    @Override
+    public int getItemCount() {
+        return recyclerModal.size();
+    }
+
+
+=== WITHIN public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {;
+
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_layout, parent, false);
+        return new ViewHolder(view);
+    }
+
+
+=== BELOW public int getItemCount() {; GENERATE SETTER METHOD FOR THE ARRAYLIST OBJECT. ie: recyclermodal:
+ 
+Also, include notifyDataSetChanged();
+
+    public void setRecyclerModal(ArrayList<RecyclerModal> recyclerModal) {
+        this.recyclerModal = recyclerModal;
+        notifyDataSetChanged();
+    }
+
+
+
+============== WORKING WITH onBindViewHolder Method ==============
+ NB: In every recycler view adapter, the onBindViewHolder method is the main method
+
+WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {; DO AS SHOWN:
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.tv_firstName.setText(recyclerModel.get(position).getFirstName());
+        holder.tv_SurName.setText(recyclerModel.get(position).getSurName());
+        Glide.with(context)
+                .asBitmap()
+                .load(recyclerModel.get(position).getImage())
+                .into(holder.img_Photo);
+
+==== IN JAV CLASS ====
+
+        ArrayList<RecyclerModal> recyclerModal = new ArrayList<>();	//Exactly how it is in Adapter Class
+
+        recyclerModal.add(new RecyclerModal("Ibrahim", "Suleiman", "https://tinyjpg.com/images/social/website.jpg"));
+        recyclerModal.add(new RecyclerModal("Ibrahim", "Suleiman", "https://oc.ocstatic.com/images/favicon/android-chrome-512x512.png"));
+        recyclerModal.add(new RecyclerModal("Ibrahim", "Suleiman", "https://www.imgonline.com.ua/examples/orange-flowers.jpg"));
+        recyclerModal.add(new RecyclerModal("Ibrahim", "Suleiman", ""));
+
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(this);
+        recyclerAdapter.setRecyclerModal(recyclerModal);
+        recyclerView.setAdapter(recyclerAdapter);
+
+
+
+============== SET ONCLICKLISTENER ==================
+	In the recycler_layout, give an ID to the parent layout, or individual views, if desired such. i.e: recycler_layout_parent
+
+---- WITHIN public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        ConstraintLayout recycler_layout_parent;
+
+            recycler_layout_parent = itemView.findViewById(R.id.recycler_layout_parent);
+
+
+==== WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {;
+
+        holder.recycler_layout_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Clicked on " + recyclerModal.get(position).getTv_surNameM() + " " + position, Toast.LENGTH_SHORT).show();                
+            }
+        });
+
+
+
+TO PASS DATA FROM RECYCLERVIEW TO ANOTHER ACTIVITY ONCLICK EVENT
+
+Create another MainActivity2.class with layout to received and display data from recyclerView
+
+Create intent to pass data from present activity to activity MainActivity2.class
+
+holder.recycler_root_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Clicked on " + recyclerModal.get(position).getTv_surNameM() + " " + position, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, MainActivity2.class);
+                intent.putExtra("tv_firstName", recyclerModel.get(position).getTv_firstNameM());
+                intent.putExtra("tv_surName", recyclerModel.get(position).getTv_firstNameM());
+		intent.putExtra("imageView1", recyclerModel.get(position).getimageM());
+                
+                view.getContext().startActivity(intent);
+
+            }
+        });
+
+
+
+RECEIVE DATA ON ACTIVITY MAINACTIVITY2 AND ASSIGN TO RESPECTIVE LAYOUT ON THE NEW ACTIVITY
+
+    TextView tv_firstName2;
+    TextView tv_surName2;
+    ImageView img_Photo2;
+
+
+        tv_firstName2 = findViewById(R.id.tv_firstName2);
+        tv_surName2 = findViewById(R.id.tv_surName2);
+        img_Photo2 = findViewById(R.id.img_Photo2);
+
+        String tv_firstName = getIntent().getStringExtra("tv_firstName");
+        String tv_surName = getIntent().getStringExtra("tv_surName");
+        int img_photo = getIntent().getIntExtra("img_Photo", 0);
+
+        tv_firstName2.setText(tv_firstName);
+        tv_surName2.setText(tv_surName);
+        img_Photo2.setImageResource(img_photo);

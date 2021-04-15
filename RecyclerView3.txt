@@ -1,0 +1,181 @@
+
+CHECK: Android Development for Beginners: 9:30:00
+
+
+USING ARRAYLIST / MODAL CLASS
+
+
+Place RecyclerView on main with ID, i.e recyclerView.
+
+IN MAIN JAVA CLASS	
+
+    RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
+
+
+        setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new recyclerAdapter(this);
+        recyclerView.setAdapter(adapter);
+
+        layoutManager = new LinearLayoutManager(this);  //Vertical recyclerview layout
+        recyclerView.setLayoutManager(layoutManager);
+
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        //recyclerView.setLayoutManager(gridLayoutManager);
+
+
+Create layout resource file for recyclerView i.e recycler_layout. Contains: img_Photo, tv_firstName, tv_surName.
+
+
+========== CREATE RECYCLERVIEW ADAPTER ===========
+NB: Change ..<RecyclerView.ViewHolder> to <recyclerAdapter.ViewHolder>
+
+1*public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
+ }
+
+2**public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
+	public static class ViewHolder extends RecyclerView.ViewHolder{        
+    	}
+  }
+
+USE ALT+Enter:
+FIRST: Create constructor
+SECONDLY: Implement methods
+NB: Preferably, move public static class ViewHolder extends RecyclerView.ViewHolder{ to the top as shown
+
+
+public class recyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+}
+
+
+
+==== WITHIN public static class ViewHolder extends RecyclerView.ViewHolder{; DO AS SHOWN: ====
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        
+	TextView tv_firstName;
+        TextView tv_surName;
+        ImageView img_Photo;
+        
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            
+            tv_firstName = itemView.findViewById(R.id.tv_firstName);
+            tv_surName = itemView.findViewById(R.id.tv_surName);
+            img_Photo = itemView.findViewById(R.id.img_Photo);
+        }
+    }
+
+
+
+=========== CREATE MODEL CLASS FOR THE ADAPTER ie: RecyclerModel ===========
+---------- Generate Constructor and generate getters and setters ----------
+
+
+public class RecyclerModel {
+    private String firstName;
+    private String surName;
+    private String image;
+}
+
+
+
+=============== IN ADAPTER CLASS ======================
+ ---- Below; public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {: Create Arraylist of the Modal class; as well as Context variable
+
+public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
+
+    private ArrayList<RecyclerModel> recyclerModel = new ArrayList<>();
+    private Context context;
+
+
+============== GENERATE 2 CONSTRUCTORS, 1 OF Context, THE OTHER EMPTY ============
+ Above: public static class ViewHolder extends RecyclerView.ViewHolder{; Generate constructor as shown below;
+
+    public recyclerAdapter(Context context) {
+        this.context = context;
+    }
+
+    public recyclerAdapter() {
+    }
+
+
+
+==== WITHING public int getItemCount() {; ================
+
+    @Override
+    public int getItemCount() {
+        return recyclerModel.size();
+    }
+
+=== WITHIN public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {;
+
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_layout, parent, false);
+        return new ViewHolder(view);
+    }
+
+
+
+==== BELOW; public int getItemCount() {; CREATE A SETTER METHOD; =====
+
+    public void setRecyclerModel(ArrayList<RecyclerModel> recyclerModel) {
+        this.recyclerModel = recyclerModel;
+        notifyDataSetChanged();
+    }     
+
+
+
+============== WORKING WITH onBindViewHolder Method ==============
+ NB: In every recycler view adapter, the onBindViewHolder method is the main method
+
+WITHIN public void onBindViewHolder(@NonNull ViewHolder holder, int position) {; DO AS SHOWN:
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.tv_firstName.setText(recyclerModel.get(position).getFirstName());
+        holder.tv_SurName.setText(recyclerModel.get(position).getSurName());
+        Glide.with(context)
+                .asBitmap()
+                .load(recyclerModel.get(position).getImage())
+                .into(holder.img_Photo);
+
+
+
+
+
+
+
+
+
